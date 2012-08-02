@@ -1,0 +1,20 @@
+Das fertige Spiel muss vom Tutor vor Ende des Projekts testiert werden.
+
+Abgabe:
+	Dokumentation (etwa 2 DIN A4-Seiten)
+	Source-Code + notwendige Bibliotheken und Dateien im Portal hochladen
+
+
+Das Testat besteht aus den folgenden drei Bestandteilen:
+
+	Live-Test
+	Der Tutor startet das Spiel und testet, ob alles so funktioniert wie spezifiziert.
+	Dazu wird er bestimmte vorgegebene Szenarien durchspielen, aber auch zufällig „herumklicken“.
+	
+	Software-Test
+	Der Tutor testet die Implementierung mit den für alle Teilnehmer bereitgestellten (öffentlichen)
+	und nur für die Tutoren und Mitarbeiter verfügbaren (privaten) JUnit-Tests.
+	Alle Tests müssen ohne Benutzerinteraktion abgeschlossen werden können.
+	
+	Code-Review
+	Der Tutor sieht sich den Quellcode sowie die Dokumentation an und stellt Fragen dazu.
