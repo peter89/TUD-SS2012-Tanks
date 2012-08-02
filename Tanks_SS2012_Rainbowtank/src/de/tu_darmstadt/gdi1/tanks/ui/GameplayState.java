@@ -49,8 +49,7 @@ import java.util.Random;
  */
 @SuppressWarnings("unused")
 public class GameplayState extends BasicGameState {
-	
-	public static float x = 15, y =15;
+
 
 	private int stateID; 							// Identifier dieses BasicGameState
 	private StateBasedEntityManager entityManager; 	// zugehoeriger entityManager
@@ -139,11 +138,8 @@ public class GameplayState extends BasicGameState {
     			tankPlayer.setShootKey(Input.KEY_SPACE); //shootkey
 
     			entityManager.addEntity(stateID, tankPlayer);
-    			
-    			x =  tankPlayer.getPosition().getX();
-    			y =  tankPlayer.getPosition().getY();
 
-    			/*
+    			
     			
     			// Panzer wird erzeugt
     			Tank tankPlayer2 = new Tank("player2 tank");
@@ -166,8 +162,7 @@ public class GameplayState extends BasicGameState {
     			
     			entityManager.addEntity(stateID, tankOppenent);
     			
-    			*/
-    			
+    			    			
     			
     			// Tower wird erzeugt
     			Tower tower = new Tower("new tower");
@@ -203,20 +198,7 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		// StatedBasedEntityManager soll alle Entities rendern
-		entityManager.renderEntities(gc, game, g);
-		//float x = tank1.getPosition().x, y = tank1.getPosition().y;
-		
-		gc.getSamples();
-		System.out.println (x+" "+y);
-
-
-		
-		if(x!=0){
-		System.out.println (x+" "+y);
-		g.drawString("testabc", x,  y);
-		}
-
-		
+		entityManager.renderEntities(gc, game, g);		
 	}
 
 	@Override
