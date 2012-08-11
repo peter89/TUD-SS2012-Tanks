@@ -39,8 +39,6 @@ public class HighScoreState extends BasicGameState {
 	stringname[2] = "2 Platz";
 	stringname[3] = "3 Platz";
 	stringname[4] = "4 Platz";
-	
-	if (Global.debug) System.out.println(getID() + " wurde gestartet");
 	}
     /**
      * Wird vor dem (erstmaligen) Starten dieses State's ausgefuehrt

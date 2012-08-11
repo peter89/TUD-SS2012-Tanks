@@ -11,6 +11,7 @@ import eea.engine.action.basicactions.RotateRightAction;
 import eea.engine.component.Component;
 import eea.engine.event.basicevents.KeyDownEvent;
 import eea.engine.event.basicevents.KeyPressedEvent;
+import global.Debug;
 import global.Global;
 
 
@@ -39,7 +40,7 @@ public class Tank extends Tower {
 		Munition = 10;
 		Full = 500;
 		
-		speed=0.05f;
+		speed=0.05f; // speed of the object - used to set/remove the speed of an
 		
 		//Tank (Erweiterung)
     	ce.addAction(ceas); // fügt dem panzer schaden des getriebes bei treffer hinzu
@@ -69,21 +70,31 @@ public class Tank extends Tower {
 		move_forward.addAction(new MoveForwardAction(speed));
 		move_backward.addAction(new MoveBackwardAction(speed));
 				
-		this.addComponent(turn_left);
-		this.addComponent(turn_right);
-		this.addComponent(move_forward);
-		this.addComponent(move_backward);
-		
+		addComponent(turn_left);
+		addComponent(turn_right);
+		addComponent(move_forward);
+		addComponent(move_backward);
 	}
-
 	
 	//CollisionEvent Action
+	Action ceat = new Action() {
+		@Override
+		public void update(GameContainer gc, StateBasedGame sb, int delta,
+				Component event) {
+			
+		speed = 0;
+
+	}};
+	
+	
+	//CollisionEvent Action Schaden
 	Action ceas = new Action() {
 		@Override
 		public void update(GameContainer gc, StateBasedGame sb, int delta,
 				Component event) {
-
-		if(Global.isdebug()) System.err.println("Getriebeschaden?");
+	
+			
+		if (Debug.isdebug(this)) System.err.println("Getriebeschaden?");
 		//Wenn speed > 0.02 füge in 20% der Collisionen einen Schaden hinzu
 		if(speed>=0.02f){
 			if (Global.likelihood(100)){
@@ -94,16 +105,6 @@ public class Tank extends Tower {
 			}
 		}
 		
-	}};
-	
-	//CollisionEvent Action
-	Action ceat = new Action() {
-		@Override
-		public void update(GameContainer gc, StateBasedGame sb, int delta,
-				Component event) {
-			
-		speed = 0;
-
 	}};
     
 }

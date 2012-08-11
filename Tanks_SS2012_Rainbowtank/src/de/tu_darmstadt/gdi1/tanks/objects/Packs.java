@@ -13,8 +13,8 @@ public class Packs extends TanksObjects {
 	}
 	
 	void addHealth(){
-			health(+30);
-			setPicture("healthpack.png");
+		health(+30);
+		setPicture("healthpack.png");
 	}
 		
 	void addMine(){
@@ -25,8 +25,8 @@ public class Packs extends TanksObjects {
 	
 	void addMuniPack(){
 		health(-30);
-	setPicture("munipack.png");
-	munition += Global.rand(20,40); 	//zufallsmunition von 20 bis 40
-}
+		setPicture("munipack.png");
+		munition += Global.rand(20,40); 	//zufallsmunition von 20 bis 40
+	}
 
 }

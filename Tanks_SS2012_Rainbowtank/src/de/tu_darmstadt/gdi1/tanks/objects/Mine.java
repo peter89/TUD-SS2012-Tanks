@@ -18,6 +18,7 @@ import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.KeyDownEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
+import global.Debug;
 import global.Global;
 
 import java.util.Random;
@@ -37,11 +38,9 @@ public class Mine extends Packs {
 		
 		setPicture("mine.png");
 		
-		if(Global.isdebug()) System.err.println("Mine Gelegt");
+		if(Debug.isdebug(this))
+			System.err.println("Mine Gelegt");
 		
-		
-
-    	    	
     	//TODO: Possitioniere hinter Panzer
     	
     	try{
@@ -50,7 +49,8 @@ public class Mine extends Packs {
     	//setScale(ce.getOwnerEntity().getScale());
     	}
     	catch(NullPointerException e){
-    		System.out.println(this.getId()+" Owner hat keine Ausrichtung");
+    		if(Debug.isdebug(this))
+    			System.out.println(this.getId()+" Owner hat keine Ausrichtung");
     	}
     	
     	//Entity test = cte.getColidedEntity();
@@ -63,6 +63,7 @@ public class Mine extends Packs {
 				Component event) {
 			
 			new DestroyEntityAction();
-			System.out.println(this.getClass().getName()+" Kollidiert mit Objekt und wird Zerstört");
+			if(Debug.isdebug(this))
+				System.out.println(this.getClass().getName()+" Kollidiert mit Objekt und wird Zerstört");
 		}};
 }

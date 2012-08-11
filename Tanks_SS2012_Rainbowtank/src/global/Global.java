@@ -27,7 +27,7 @@ import global.reglib;
  *** Register Lib's
  * regLibs() // register Libs for GL
  * */
-public class Global extends Debuging{
+public class Global {
 	
 	static String[] myskin = { "defaultskin", "NewSkin"};
 	static int cur_skin = 0;
@@ -76,7 +76,7 @@ public class Global extends Debuging{
 	}
 	
 	public static void getSound(String file){
-		new play(getPath("audio")+file);
+		new playsound(getPath("audio")+file);
 	}
 	
 	

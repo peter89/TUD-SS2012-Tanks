@@ -8,7 +8,8 @@ public class testSound {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try{
-		Global.getSound("theme.ogg");
+		//Global.getSound("theme.ogg");
+		Global.getSound("BugleErsteAnruf.wav");
 		}
 		
 		catch(Exception e){

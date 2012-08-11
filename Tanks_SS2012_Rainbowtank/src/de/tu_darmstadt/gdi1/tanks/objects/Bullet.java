@@ -21,6 +21,7 @@ import eea.engine.event.basicevents.KeyDownEvent;
 import eea.engine.event.basicevents.LeavingScreenEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
+import global.Debug;
 import global.Global;
 
 import java.util.Random;
@@ -36,14 +37,14 @@ public class Bullet extends Mine {
 		//Bild:
 		setPicture("shoot.png");
 		
-		speed = 0.25f; //set speed of object Bullet
+		float speed = 0.25f; //set speed of object Bullet
 		float ablenkung=0.01f; // Ablenkung
 		
 		schaden = Global.rand(2,4); //erzeugt zufallsschaden von 2 bis 4
 
 		setScale(0.05f); //Größe des Objects
 		
-		if(Global.isdebug()) System.err.println("Bullet created with speed: "+speed);
+		if(Debug.isdebug(this)) System.err.println("Bullet created with speed: "+speed);
     	
 		// Move forward with speed / cycle
 		LoopEvent loop = new LoopEvent();

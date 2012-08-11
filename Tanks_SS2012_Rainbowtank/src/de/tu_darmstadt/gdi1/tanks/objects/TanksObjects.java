@@ -10,7 +10,9 @@ import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.LeavingScreenEvent;
+import global.Debug;
 import global.Global;
+import global.Settings;
 
 public class TanksObjects extends Entity {
 
@@ -20,8 +22,9 @@ public class TanksObjects extends Entity {
 	 * */
 	int health = 1; 	// Standard Leben (e.g. bullet, mine, packs)
 	int munition = 0;	//standard munition
-	float speed = 0; 	// speed of the object - used to set/remove the speed of an
-						// object
+	float speed = 0;    //speed
+	
+	// object
 	int schaden = Global.rand(0, 3); // verursacht schaden bei aufprall
 
 	// Intern: Name of Picture to change to Destroid version
@@ -47,7 +50,7 @@ public class TanksObjects extends Entity {
 		// Leving Sceen Event
 		lse.addAction(lsa); // ADD Action lsa to LeavingScreenEvent
 		addComponent(lse); // ADD LeavingScreenEvent to Object
-		
+
 		lse.addAction(new DestroyEntityAction());
 	}
 
@@ -85,12 +88,12 @@ public class TanksObjects extends Entity {
 			// Wenn bereits Zerstört
 			if (isdestroid()) {
 				// <Owner> ist bereits zerstört worden
-				if (Global.isdebug())
+				if (Debug.isdebug(this))
 					System.out.println(EventOwner+ " ist bereits zerstört worden");
 			} else {
 
 				//Prüft ob unzerstörbarkeit ist an
-				if (! Global.isgod() ) {
+				if (! Settings.godmod ) {
 					try {
 						// collisionsobject -> Tanksobject
 						TanksObjects tanksobj = (TanksObjects) ce.getColidedEntity();// Typenconvertierung						
@@ -105,7 +108,7 @@ public class TanksObjects extends Entity {
 				// "Tank") { }
 
 				if (isdestroid()) {
-					if (Global.isdebug())
+					if (Debug.isdebug(this))
 						System.out.println(ce.getOwnerEntity() + " wurde zerstört");
 					speed = 0;
 					schaden = 0;
@@ -115,22 +118,18 @@ public class TanksObjects extends Entity {
 			}
 
 			if (ce.getColidedEntity().getId() != "a Bullet")
-				if (Global.debug)
-					System.err.println(ce.getColidedEntity().getId() + ">> <<"
-							+ ce.getId());
+				if (Debug.isdebug(this))
+					System.err.println(ce.getColidedEntity().getId() + ">> <<" + ce.getId());
 		}
 	};
 
 	public void setPicture(String picture) {
 		Picture = picture;
 		/* Bild laden und zuweisen */
-		
-			// Falls object zerstört füge bild hinzu...
-			if (isdestroid())
-				picture = "destroid_" + picture;
-			// if (isdestroid()) this.addComponent(new ImageRenderComponent(new
-			// Image());
 
+			// Falls object zerstört füge bild hinzu...
+			if (isdestroid()) picture = "destroid_" + picture;
+			
 			// Bild Zuweisen
 			addComponent(new ImageRenderComponent(Global.getImage(picture)));
 	}
