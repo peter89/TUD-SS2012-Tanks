@@ -38,7 +38,7 @@ public class FarbigeStatusAnzeige extends JFrame {
                     if (i < max / 2.4 * 2) { 
                         rot += faktor / 5; 
                     } 
-                    if (i < max / 10) {
+                    if (i < max / 3) {
                     	rot = 255;
                     	
                         gruen -= faktor / 25; 
