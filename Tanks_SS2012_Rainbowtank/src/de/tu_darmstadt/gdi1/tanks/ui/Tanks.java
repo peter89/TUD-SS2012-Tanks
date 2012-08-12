@@ -1,5 +1,8 @@
 package de.tu_darmstadt.gdi1.tanks.ui;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsEnvironment;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -46,19 +49,15 @@ public class Tanks extends StateBasedGame {
  
         // Lege die Einstellungen des Fensters fest und starte das Fenster
         app.setShowFPS(false); // ohne Anzeige der FPS-Rate
-        
-        // Fuehren Sie hier (falls noetig), weitere Initialisierungen ein
-        
+
         // Lege die Einstellungen des Fensters fest und starte das Fenster
         // (nicht aber im Vollbildmodus)
+        
+
+        //Aktuelle Auflösung 800x600
         app.setDisplayMode(800, 600, false);
         
-        
-        /**/
-        //synchronisiert die Framerate der GPU mit der Bildwiederholrate des Monitors
-    	//Reduzieren der benötigte Leistung und damit der Abwärme,
-    	//sowie die Stromaufnahme der GPU.
-        
+        /**/        
     	//Vollbildmodus aktivieren/deaktivieren
     	app.setFullscreen(Settings.fullscreen);
         
@@ -66,12 +65,13 @@ public class Tanks extends StateBasedGame {
     	app.setTargetFrameRate(Settings.framerate);
     	
     	//VSync aktivieren/deaktivieren
+        //Synchronisiert die Framerate der GrafikkartenGPU mit der Bildwiederholrate des Monitors
+    	//Reduzieren der benötigte Leistung und damit auch die Stromaufnahme der GPU
+    	//und somit auch die Abwärme.
     	app.setVSync(true);
         /**/
-        
-        
-        
-        // Starte das Spiel Tanks
+                
+        // Starte das Spiel Tank
         app.start();
     }
     

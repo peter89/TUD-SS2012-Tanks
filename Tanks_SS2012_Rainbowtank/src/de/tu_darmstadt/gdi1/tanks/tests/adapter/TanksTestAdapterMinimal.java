@@ -14,6 +14,7 @@ import de.tu_darmstadt.gdi1.tanks.ui.Tanks;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.test.TestAppGameContainer;
+import global.Global;
 
 /**
  * This is the test adapter for the minimal stage of completion. You <b>must</b> implement the method stubs and match
@@ -75,15 +76,8 @@ public class TanksTestAdapterMinimal {
 		// muessen Sie ihn leider loeschen
 		
 		// Setze den library Pfad abhaengig vom Betriebssystem
-    	if(System.getProperty("os.name").toLowerCase().contains("windows")) {
-			System.setProperty("org.lwjgl.librarypath",System.getProperty("user.dir") + "/lib/lwjgl-2.8.3/native/windows");
-		} 
-		else if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-			System.setProperty("org.lwjgl.librarypath",System.getProperty("user.dir") + "/lib/lwjgl-2.8.3/native/macosx");
-		}
-		else {
-			System.setProperty("org.lwjgl.librarypath",System.getProperty("user.dir") + "/lib/lwjgl-2.8.3/native/" +System.getProperty("os.name").toLowerCase());
-		}
+		Global.regLibs();
+		
     	// Initialisiere das Spiel Tanks im Debug-Modus (ohne UI)
 		tanks = new Tanks(true);
 		

@@ -42,8 +42,8 @@ public class Global {
 		String path = null;
 		if (res == "root") 	path = System.getProperty("user.dir")+File.separator;
 		if (res == "res")  	path = getPath("root")+res+File.separator;
-		if (res == "libs")  path = getPath("res")+res+File.separator;
-		if (res == "lwjgl") path = getPath("libs")+res+File.separator;
+		if (res == "lib")  	path = getPath("root")+res+File.separator;
+		if (res == "lwjgl") path = getPath("lib")+res+"-2.8.3"+File.separator+"native"+File.separator;
 		if (res == "skins") path = getPath("res")+res+File.separator;
 		if (res == "skin") 	path = getPath("skins")+skin+File.separator;  //Current Skin
 		

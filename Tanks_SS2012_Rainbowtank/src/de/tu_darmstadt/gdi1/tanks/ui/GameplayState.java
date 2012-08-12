@@ -171,7 +171,6 @@ public class GameplayState extends BasicGameState {
     			tower.setPicture("flac.png"); //png bild
     			
     			entityManager.addEntity(stateID, tower);
-
     		}};
     	
     		

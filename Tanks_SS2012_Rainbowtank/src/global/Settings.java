@@ -14,7 +14,7 @@ public class Settings {
 	
 	//Sound
 	public static boolean sound; //ton an/aus
-	public static double volume=2; //Lautstärkereglung Default 2
+	public static double volume=3.0; //Lautstärkereglung Default 2 max 3.0
 
 	//Netzwerk
 	

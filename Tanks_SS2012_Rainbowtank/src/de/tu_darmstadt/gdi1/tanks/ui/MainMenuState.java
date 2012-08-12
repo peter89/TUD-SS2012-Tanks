@@ -101,7 +101,6 @@ public class MainMenuState extends BasicGameState {
         	// Fuege die Entity zum StateBasedEntityManager hinzu
         	entityManager.addEntity(this.stateID, Menu_Entity);
     	}
-
     }
 
 	/**

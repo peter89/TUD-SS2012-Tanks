@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="res/libs/jl1.0.1.jar"/>
-	<classpathentry kind="lib" path="res/libs/engine/eea.jar"/>
-	<classpathentry kind="lib" path="res/libs/engine/slick.jar"/>
-	<classpathentry kind="lib" path="res/libs/lwjgl/lwjgl.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Tanks_SS2012_Rainbowtank/res/libs/lwjgl"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="res/libs/acm.jar"/>
-	<classpathentry kind="lib" path="res/libs/translator.jar"/>
-	<classpathentry kind="lib" path="res/libs/engine/jmonkey/jMonkeyEngine3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/engine/jmonkey/jMonkeyEngine3.jar"/>
+	<classpathentry kind="lib" path="lib/engine/eea.jar"/>
+	<classpathentry kind="lib" path="lib/engine/slick.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-2.8.3/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Tanks_SS2012_Rainbowtank/lib/lwjgl-2.8.3/native"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/acm.jar"/>
+	<classpathentry kind="lib" path="lib/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/translator.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
