@@ -8,7 +8,7 @@ public class Debug {
 		String classname = obj.getClass().getSimpleName();
 		
 		//an / abschalten des debugging für einzelne Entityklassen
-		if (classname.equals("")) debug = false;
+		if (classname.equals("TanksObjects")) debug = true;
 		if (classname.equals("")) debug = false;
 		
 	return debug & Settings.debug; //Boolische & Verknüpfung - Settings Debug & Debug Obj

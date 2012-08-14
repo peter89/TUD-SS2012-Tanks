@@ -3,9 +3,9 @@ package de.tu_darmstadt.gdi1.tanks.objects;
 import eea.engine.action.basicactions.DestroyEntityAction;
 import global.Global;
 
-public class Packs extends TanksObjects {
+public class Pickup extends TanksObjects {
 
-	public Packs(String id) {
+	public Pickup(String id) {
 		super(id);
 		
 		//ADD CollisionsEvent (Eigenes Objekt Zerstören)
@@ -20,7 +20,7 @@ public class Packs extends TanksObjects {
 	void addMine(){
 		health(-30);
 		setPicture("mine.png");
-		schaden = Global.rand(20,40); 	//zufallsschaden von 20 bis 40
+		strength = Global.rand(20,40); 	//zufallsschaden von 20 bis 40
 	}
 	
 	void addMuniPack(){

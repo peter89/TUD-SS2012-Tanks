@@ -1,8 +1,5 @@
 package de.tu_darmstadt.gdi1.tanks.ui;
 
-import java.awt.DisplayMode;
-import java.awt.GraphicsEnvironment;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -53,7 +50,6 @@ public class Tanks extends StateBasedGame {
         // Lege die Einstellungen des Fensters fest und starte das Fenster
         // (nicht aber im Vollbildmodus)
         
-
         //Aktuelle Auflösung 800x600
         app.setDisplayMode(800, 600, false);
         

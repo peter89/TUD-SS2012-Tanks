@@ -38,19 +38,28 @@ public class Global {
 	public static void setSkin(String Skin){skin = Skin;} //extends UI Manager
 	
 	public static String getPath(String res){
-		//RessourcePath (do not change please)
+
 		String path = null;
+		
+		//LibPath (do not change please)
 		if (res == "root") 	path = System.getProperty("user.dir")+File.separator;
-		if (res == "res")  	path = getPath("root")+res+File.separator;
 		if (res == "lib")  	path = getPath("root")+res+File.separator;
-		if (res == "lwjgl") path = getPath("lib")+res+"-2.8.3"+File.separator+"native"+File.separator;
-		if (res == "skins") path = getPath("res")+res+File.separator;
-		if (res == "skin") 	path = getPath("skins")+skin+File.separator;  //Current Skin
+		if (res == "lwjgl") path = getPath("lib")+res+"-2.8.3"+File.separator;
+		if (res == "native") path = getPath("lwjgl")+res+File.separator;
+		
+		//RessourcePath (do not change please)
+		if (res == "res")  	path = getPath("root")+res+File.separator;
+		if (res == "saves") path = getPath("res")+res+File.separator;		//Save Path
+		if (res == "maps") path = getPath("res")+res+File.separator;		//Map Path
+		if (res == "skins") path = getPath("res")+res+File.separator;		//Skin Path
+		if (res == "skin") 	path = getPath("skins")+skin+File.separator;  	//Current Skin
 		
 		//MediaPath (Current Skin)
 		if (res == "images")	path = getPath("skin")+res+File.separator;
 		if (res == "audio")		path = getPath("skin")+res+File.separator;
 		if (res == "animation") path = getPath("skin")+res+File.separator;
+		
+
 		
 		//Link
 		if (res == "img")   	path = getPath("images");
@@ -79,7 +88,6 @@ public class Global {
 		new playsound(getPath("audio")+file);
 	}
 	
-	
 	public static Animation animate(String folder){ return new Animate(folder); }
 	//Zufallszahl von ... bis ...
 	public static int rand(int start, int end){ return new Random( end-start ).nextInt()+start; }
@@ -91,6 +99,6 @@ public class Global {
 		}
 
 	public static void regLibs(){
-		new reglib("org.lwjgl.librarypath", getPath("lwjgl"));
+		new reglib("org.lwjgl.librarypath", getPath("native"));
 		}
 }

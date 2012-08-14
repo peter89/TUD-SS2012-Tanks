@@ -25,7 +25,7 @@ import java.util.Random;
 
 
 @SuppressWarnings("unused")
-public class Mine extends Packs {
+public class Mine extends Pickup {
 	
 	
 	/** Events: CollisionEvent, LeavingScreenEvent

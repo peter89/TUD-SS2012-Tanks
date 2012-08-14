@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import de.tu_darmstadt.gdi1.tanks.model.exceptions.SemanticException;
 import de.tu_darmstadt.gdi1.tanks.model.exceptions.SyntaxException;
 import de.tu_darmstadt.gdi1.tanks.ui.Tanks;
+
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.test.TestAppGameContainer;
@@ -241,7 +242,6 @@ public class TanksTestAdapterMinimal {
 		List<Entity> entities = new ArrayList<Entity>();
 		
 		entities = StateBasedEntityManager.getInstance().getEntitiesByState(Tanks.GAMEPLAYSTATE);
-		
 		//TODO
 		
 		return null;

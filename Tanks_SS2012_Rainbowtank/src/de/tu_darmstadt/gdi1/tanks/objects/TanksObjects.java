@@ -2,7 +2,6 @@ package de.tu_darmstadt.gdi1.tanks.objects;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
-
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.DestroyEntityAction;
 import eea.engine.component.Component;
@@ -15,20 +14,17 @@ import global.Global;
 import global.Settings;
 
 public class TanksObjects extends Entity {
-
+	
 	/**
 	 * Standards von Objekten - Objekte können im god-modus nicht zerstört
 	 * werden
 	 * */
-	int health = 1; 	// Standard Leben (e.g. bullet, mine, packs)
+	public int health = 1; 	// Standard Leben (e.g. bullet, mine, packs)
 	int munition = 0;	//standard munition
 	float speed = 0;    //speed
 	
 	// object
-	int schaden = Global.rand(0, 3); // verursacht schaden bei aufprall
-
-	// Intern: Name of Picture to change to Destroid version
-	private String Picture; // Bild des Objects
+	int strength = Global.rand(0, 3); // verursacht schaden bei aufprall
 
 	/**
 	 * Events
@@ -42,7 +38,7 @@ public class TanksObjects extends Entity {
 
 	public TanksObjects(String id) {
 		super(id);
-
+	    
 		// Collision Event
 		ce.addAction(ca); // ADD Action cea to CollisionEventAction
 		addComponent(ce); // ADD CollisionEvent to Object
@@ -80,8 +76,6 @@ public class TanksObjects extends Entity {
 		public void update(GameContainer gc, StateBasedGame sb, int delta,
 				Component event) {
 
-			setPicture(Picture); // update Picture
-
 			// Owner of Event
 			String EventOwner = ce.getOwnerEntity().getId();
 
@@ -97,7 +91,7 @@ public class TanksObjects extends Entity {
 					try {
 						// collisionsobject -> Tanksobject
 						TanksObjects tanksobj = (TanksObjects) ce.getColidedEntity();// Typenconvertierung						
-						health(-tanksobj.schaden); // schaden hinzufügen
+						health(-tanksobj.strength); // schaden hinzufügen
 					} catch (Exception e) {
 					}// TODO: Exception: Fehler bei Convertierung nach
 						// TanksObjects
@@ -111,7 +105,7 @@ public class TanksObjects extends Entity {
 					if (Debug.isdebug(this))
 						System.out.println(ce.getOwnerEntity() + " wurde zerstört");
 					speed = 0;
-					schaden = 0;
+					strength = 0;
 					// TODO: Drop Items e.g. Munition Health
 				}
 
@@ -124,10 +118,8 @@ public class TanksObjects extends Entity {
 	};
 
 	public void setPicture(String picture) {
-		Picture = picture;
-		/* Bild laden und zuweisen */
 
-			// Falls object zerstört füge bild hinzu...
+			// Falls object zerstört ändere bild zu...
 			if (isdestroid()) picture = "destroid_" + picture;
 			
 			// Bild Zuweisen

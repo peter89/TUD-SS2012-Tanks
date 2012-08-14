@@ -52,7 +52,9 @@ public class playsound{
 					audioInputStream = AudioSystem.getAudioInputStream(soundFile);
 				}
 				catch (Exception e){System.err.println("audioInputStream");}
+				
 				AudioFormat	audioFormat = audioInputStream.getFormat();
+				
 				SourceDataLine	line = null;
 				DataLine.Info	info = new DataLine.Info(SourceDataLine.class,audioFormat);
 				try
@@ -62,6 +64,7 @@ public class playsound{
 				}
 				catch (LineUnavailableException e){System.err.println("LineUnavailableException");}
 				line.start();
+				
 				int	nBytesRead = 0;
 				byte[]	abData = new byte[EXTERNAL_BUFFER_SIZE];
 				while (nBytesRead != -1)

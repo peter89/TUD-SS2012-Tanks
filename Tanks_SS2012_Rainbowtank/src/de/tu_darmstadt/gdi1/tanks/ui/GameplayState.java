@@ -1,10 +1,15 @@
 package de.tu_darmstadt.gdi1.tanks.ui;
 
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -37,6 +42,7 @@ import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import global.Global;
 
+import de.tu_darmstadt.gdi1.tanks.logic.FarbigeStatusAnzeige;
 import de.tu_darmstadt.gdi1.tanks.objects.*;
 
 import java.util.Random;
@@ -50,11 +56,13 @@ import java.util.Random;
 @SuppressWarnings("unused")
 public class GameplayState extends BasicGameState {
 
+	int health = 0;
 
 	private int stateID; 							// Identifier dieses BasicGameState
-	private StateBasedEntityManager entityManager; 	// zugehoeriger entityManager
+	public StateBasedEntityManager entityManager; 	// zugehoeriger entityManager
 	
-	Tank tankPlayer;
+	Tank tankPlayer=null;
+	boolean test_bar = false;
     
     GameplayState( int sid ) {
        stateID = sid;
@@ -66,9 +74,15 @@ public class GameplayState extends BasicGameState {
 		public void update(GameContainer gc, StateBasedGame sb, int delta,
 				Component event) {
    			
-			Bullet mybullet = new Bullet("a Bullet");
-			mybullet.setPosition(new Vector2f(200,200)); //Position
-			mybullet.setRotation(95.4f); //Rotation
+			Shot mybullet = new Shot("a Bullet");
+			
+			//abstand generierung vor kanonenrohr abhängig von tankgröße
+			int offset = (int) (tankPlayer.getScale()*-250);
+			Vector2f bullet_position = new Vector2f(0,offset).add(tankPlayer.getRotation());
+			bullet_position.add(tankPlayer.getPosition());
+			mybullet.setPosition( bullet_position ); //Position
+			mybullet.setRotation( tankPlayer.getRotation() ); //Rotation
+
 			entityManager.addEntity(stateID, mybullet );
 	}};
 	
@@ -114,6 +128,8 @@ public class GameplayState extends BasicGameState {
 		LoopEvent loop_shoot = new LoopEvent();
 		try {
 			loop_shoot.wait(9999999);
+			loop_shoot.wait();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,6 +138,7 @@ public class GameplayState extends BasicGameState {
 		
 		entityManager.addEntity(stateID, autoshoot);
 		*/
+		
 		
     	
     	Action add_tanks = new Action() {
@@ -186,7 +203,7 @@ public class GameplayState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// StatedBasedEntityManager soll alle Entities aktualisieren
     	Input input = gc.getInput();
-		
+    	
     	//if (input.isKeyDown(Input.KEY_0)){}
     	entityManager.updateEntities(gc, game, delta);
 	}
@@ -197,7 +214,76 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		// StatedBasedEntityManager soll alle Entities rendern
-		entityManager.renderEntities(gc, game, g);		
+		entityManager.renderEntities(gc, game, g);
+		
+		//g.drawAnimation(Global.animate("expl"), 200, 200);
+
+		float healthX=10, healthY=10;
+		
+		try{
+			healthX = tankPlayer.getPosition().x;
+			healthY = tankPlayer.getPosition().y;
+		}
+		catch(Exception e){
+			
+		}
+		float maxHealth=100;
+		
+		float healthWidth=maxHealth, healthHeight=10;
+		float radius=healthHeight/2;
+
+		
+
+		
+		//FarbigeStatusAnzeige bar1 = new FarbigeStatusAnzeige(95);
+		//FarbigeStatusAnzeige bar2 = new FarbigeStatusAnzeige(50);
+		//FarbigeStatusAnzeige bar3 = new FarbigeStatusAnzeige(1);
+		
+		
+
+		
+		
+		RoundedRectangle healthBG = new RoundedRectangle(healthX, healthY, healthWidth+(1.4f*2), healthHeight+1.4f, radius);
+		
+        float healthGAWidth = ((float) health / (float) maxHealth) * (float) healthWidth;
+        RoundedRectangle healthGA = new RoundedRectangle(healthX+0.7f, healthY+0.7f, healthGAWidth, healthHeight,radius);
+        
+        g.setColor(Color.gray);
+        g.fill(healthBG);
+        g.setColor(Color.gray);
+        g.draw(healthBG);
+        
+        
+
+        FarbigeStatusAnzeige bar = new FarbigeStatusAnzeige("mytank health");
+        if (tankPlayer!=null){
+        	health=tankPlayer.health;
+        	
+        }
+        
+        
+        
+        	
+        	if(health==100 || health==0){
+        		test_bar=test_bar?false:true;  //Umschalten       	
+        	}
+        	
+        	if(test_bar) health++; else health--;
+        
+        g.setColor(bar.getColor(health));
+        g.fill(healthGA);
+        g.draw(healthGA);
+
+		g.flush();//IMPORTANT!!!
+		
+		
+		
+
+        /*
+        AngelCodeFont font = null;
+        font.drawString(50, 50, "Spielname");
+        font.drawString(50, 75, "Nutze space zum starten.");
+       */
 	}
 
 	@Override

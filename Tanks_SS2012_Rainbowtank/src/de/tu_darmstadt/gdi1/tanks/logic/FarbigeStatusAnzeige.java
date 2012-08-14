@@ -1,114 +1,63 @@
 package de.tu_darmstadt.gdi1.tanks.logic;
-import java.awt.BorderLayout; 
-import java.awt.Color; 
-import java.awt.Dimension; 
-import java.awt.SystemColor; 
-import java.awt.event.ActionEvent; 
-import java.awt.event.ActionListener; 
 
-import javax.swing.JButton; 
-import javax.swing.JFrame; 
-import javax.swing.JProgressBar; 
-import javax.swing.border.EmptyBorder; 
-import javax.swing.plaf.basic.BasicProgressBarUI; 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Vector2f;
 
-public class FarbigeStatusAnzeige extends JFrame { 
+import eea.engine.action.basicactions.DestroyEntityAction;
+import eea.engine.entity.Entity;
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	FarbigeProgressBar bar; 
-    JButton button; 
-    int max = 4000, min = 0; 
+public class FarbigeStatusAnzeige extends Entity{
 
-    public FarbigeStatusAnzeige() { 
+	int posx, posy;
+	int max = 100, min = 0;
+	int Value;
+	public static Color color;
+	
+    public FarbigeStatusAnzeige(String id) {
+    		super(id);
+    }
+    
 
-        bar = new FarbigeProgressBar(min, max); 
-        bar.setValue(max); 
-        bar.setStringPainted(true); 
+	/*
+	Graphics g = new Graphics();
+	g.setColor(color);
+	g.fillRect(posx,posy,100,1);
+	g.fill(bar);
+	g.draw(bar);
+	g.flush();//IMPORTANT!!!
+	*/
 
-        final Runnable runnable = new Runnable() { 
-            int rot = 0, gruen = 255; 
-            double faktor = max / 255 / 2; 
+	
+    public Color getColor(int value){
+    	//********************************+
+    			float min=0, max=50;
+    			
+    	        int rot = 0, gruen = 255;		//Ausgangs Farbwerte 
+    	        float faktor = 255f / max; 		//Verschiebungsfaktor der Farbe pro Wert
+    	/*
+    	RGB (0; 255; 0) gibt 65280 zurück, was Grün darstellt.
+    	RGB (255; 255; 0) gibt 65280 zurück, was Gelb darstellt.
+    	RGB (255; 0; 0) gibt 16711680 zurück, was Rot darstellt.
+    	*/
+    	        
+    	        //Grün -> Gelb durch subtraktion der rot werte
 
-            public void run() { 
-                for (int i = max; i >= min; i--) {
-                	
-                    if (i < max / 2.4 * 2) { 
-                        rot += faktor / 5; 
-                    } 
-                    if (i < max / 3) {
-                    	rot = 255;
-                    	
-                        gruen -= faktor / 25; 
-                        rot += faktor / 15; 
-                    }
-                     
-                    //color should be between 0 and 255
-                    rot = rot > 255 ? 255 : rot; 
-                    rot = rot < 0 ? 0 : rot; 
-                    gruen = gruen > 255 ? 255 : gruen; 
-                    gruen = gruen < 0 ? 0 : gruen; 
-                    
-                    bar.setForeground(new Color(rot, gruen, 0)); 
-                    bar.setValue(i); 
-                    try { 
-                        Thread.sleep(1); 
-                    } catch (InterruptedException ex) { 
-                    }
-                } 
-                rot = 0; 
-                gruen = 255; 
-            } 
-        }; 
+    	            rot = (int) (255 - ((value*faktor)*0.1)); //5
 
-        button = new JButton("start"); 
-        button.addActionListener(new ActionListener() { 
-            public void actionPerformed(ActionEvent e) { 
-                Thread thread = new Thread(runnable); 
-                thread.start(); 
-            } 
-        }); 
-        setLayout(new BorderLayout()); 
-        add(button, BorderLayout.SOUTH); 
-        add(bar, BorderLayout.CENTER); 
+    	        //Gelb -> Rot durch subtraktion der grünwerte
+    	            if(rot>=200){
+    	            	gruen = (int) ((value*faktor)*1.5);
+    	            	System.out.println("rot");
+    	            }
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        pack(); 
-        setVisible(true); 
-    } 
+    	            //System.out.println("RGB: r/"+rot+" g/"+gruen+" b/"+ 0);
+    	            
+    	            //color should be between 0 and 255
+    	            rot = rot > 255 ? 255 : rot;
+    	            rot = rot < 0 ? 0 : rot; 
+    	            gruen = gruen > 255 ? 255 : gruen; 
+    	            gruen = gruen < 0 ? 0 : gruen;
 
-    public static void main(String[] args) { 
-        new FarbigeStatusAnzeige(); 
-    } 
-} 
-
-class FarbigeProgressBar extends JProgressBar { 
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public FarbigeProgressBar(int start, int end) { 
-        setMinimum(start); 
-        setMaximum(end); 
-        setForeground(SystemColor.window); 
-        setBackground(SystemColor.window); 
-        setBorder(new EmptyBorder(3, 5, 3, 5)); 
-        Dimension size = new Dimension(300, 20); 
-        setPreferredSize(size); 
-        setMaximumSize(size); 
-        setMinimumSize(size); 
-        BasicProgressBarUI ui = new BasicProgressBarUI() { 
-            protected Color getSelectionForeground(){ 
-                return Color.BLACK; 
-            } 
-            protected Color getSelectionBackground(){ 
-                return Color.BLACK; 
-            } 
-        }; 
-        setUI(ui); 
-    } 
+    	           return (new Color(rot, gruen, 0));
+    }
 } 

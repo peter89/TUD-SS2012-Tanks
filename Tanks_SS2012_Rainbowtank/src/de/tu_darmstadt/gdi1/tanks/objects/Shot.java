@@ -27,12 +27,15 @@ import global.Global;
 import java.util.Random;
 import java.math.*;
 
+import de.tu_darmstadt.gdi1.tanks.ui.GameplayState;
+
 @SuppressWarnings("unused")
-public class Bullet extends Mine {
+public class Shot extends Mine {
 	
 
-	public Bullet(String id) {
+	public Shot(String id) {
 		super(id);
+	
 		
 		//Bild:
 		setPicture("shoot.png");
@@ -40,7 +43,7 @@ public class Bullet extends Mine {
 		float speed = 0.25f; //set speed of object Bullet
 		float ablenkung=0.01f; // Ablenkung
 		
-		schaden = Global.rand(2,4); //erzeugt zufallsschaden von 2 bis 4
+		strength = Global.rand(2,4); //erzeugt zufallsschaden von 2 bis 4
 
 		setScale(0.05f); //Größe des Objects
 		
@@ -51,31 +54,10 @@ public class Bullet extends Mine {
     	loop.addAction(new MoveForwardAction(speed));
     	this.addComponent(loop);  // Loop Event
 
-		//Ablenkung bei Schießen random  0.0f - 1.0f /20 / cycle   			
+		//Ablenkung bei Schießen random  0.0f - 1.0f /20 / cycle		
 		LoopEvent loop_abweichung = new LoopEvent();
     	loop_abweichung.addAction(new RotateLeftAction( new Random().nextFloat() * ablenkung ));
     	loop_abweichung.addAction(new RotateRightAction( new Random().nextFloat() * ablenkung ));
     	this.addComponent(loop_abweichung);  // Loop Event
-    	
-
-    	
-    	//TODO: Possitioniere vor Panzerrohr VV
-    	float x, y;
-    	x= 50;
-    	y= 50;
-    	
-    	try{
-    		//TODO: Rotation und possition von Erzeugendem Objekt übernehmen
-    		//und ausrichten
-    		
-    	//setRotation(ce.getOwnerEntity().getRotation());
-    	//ausrichtung von owner übernehmen und possitioniere vor owner
-    	//setPosition(ce.getOwnerEntity().getPosition().add( new Vector2f(x,y)));
-    	//setScale(ce.getOwnerEntity().getScale());
-    	}
-    	catch(NullPointerException e){
-    		System.out.println(this.getId()+" Owner hat keine Ausrichtung");
-    	}
-    	//TODO: Possitioniere vor Panzerrohr ^^^
 	}
 }

@@ -34,7 +34,7 @@ public class Tank extends Tower {
 		
 		//set Default Variables
 		health = 100;
-		schaden = 30;
+		strength = 30;
 		
 		Minen = 3;
 		Munition = 10;
@@ -100,7 +100,7 @@ public class Tank extends Tower {
 			if (Global.likelihood(100)){
 				float getrschaden = (float) Global.rand(2, 7) / 1000;
 				speed-=getrschaden;
-				System.out.println("Getriebe hat "+schaden+" Schaden genommen\n" +
+				System.out.println("Getriebe hat "+strength+" Schaden genommen\n" +
 				"Repariere es bevor du zum leichten Ziel wirst"); //TODO: Meldung Textfeld Bottom
 			}
 		}

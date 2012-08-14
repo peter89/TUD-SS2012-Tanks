@@ -21,7 +21,7 @@ public class Animate extends Animation implements Renderable {
 		this.setSpeed(1.7f);
 		this.start();
 		
-		String path = Global.getPath("animation")+obj;
+		String path = Global.getPath("animation")+obj+File.separator;
 		
 		File dir = new File(path);
 		String[] fileList = dir.list(new FilenameFilter() {
