@@ -87,41 +87,47 @@ public class Parse {
 					  for(int i =0; i < temp.length ; i++){
 					   // System.out.println(temp[i]);
 					  
-							  
-						    	// Entitiy Erstellen
-						    	Entity parse_entity = new Entity(temp[1]);
+/*						  
 
-						    	// Setze Bildkomponente
-						    	parse_entity.addComponent(new ImageRenderComponent(Global.getImage(temp[2])));
-						    	
-						    	int x = Integer.parseInt(temp[3]); //x Possition an stelle 3
-						    	int y = Integer.parseInt(temp[4]); //y Possition an stelle 4
 						    	
 						    	parse_entity.setPosition(new Vector2f(x,y)); // Setze Possition
-
+*/
 
 						    	
 							    // Hintergrund-Entitaet an StateBasedEntityManager uebergeben
 						    	//entityManager.addEntity(stateID, background);
 						    	
-						    	/*
-							    void printClassName(Object obj) {
-							        System.out.println("The class of " + obj +
-							                           " is " + obj.getClass().getName());
-							    }
-							    */
 							  
 						    	/* Zweiter Ansatz Complett Dynamisch */
 						    	//Class<? extends Entity>[] entityArg = new Class[entitySize]; //array mit dynamischen entityss
 						    	
-						    	Class<? extends Entity> myclass = (Class<? extends Entity>) Class.forName(temp[0]);
-							    
-							  // Suche Klasse nach Klassename
+					    	// Entitiy Erstellen
+						  	// Entity parse_entity = new Entity(temp[1]);
+
+						    	//Class<? extends Entity> myclass = (Class<? extends Entity>) Class.forName(temp[0]);
+						    	Class<? extends TanksObjects> myclass = (Class<? extends TanksObjects>) Class.forName(temp[0]);
 						    	
-						    	myclass.asSubclass(Class myclass);
-							  
-							  test (Class<? extends Entity>) asSubclass( (Class<U> clazz) );
-							  
+						    	myclass.getName();
+						    	myclass.getSimpleName();
+						    	
+						    	TanksObjects parse_entity = myclass.newInstance();
+						    	
+						    	//Tank mytank = (Tank) myclass.newInstance();
+						    	
+								//Bild Hinzufügen
+						    	//parse_entity.addComponent(new ImageRenderComponent(Global.getImage(temp[1])));
+						    	parse_entity.setPicture(temp[1]);
+						    	
+						    	//Entity superb = (Entity) classz.newInstance(); //Vorraussetzung der Klassenname Existiert						    	
+						    	int x = Integer.parseInt(temp[3]); //x Possition an stelle 3
+						    	int y = Integer.parseInt(temp[4]); //y Possition an stelle 4
+						    	
+						    	//Position Setzen
+						    	parse_entity.setPosition(new Vector2f(x,y)); // Setze Possition
+
+						    	//Füge Aktuelle Entity hinzu
+								StateBasedEntityManager.getInstance().addEntity(Tanks.GAMEPLAYSTATE, parse_entity);
+
 							  /*
 							  public <U> Class<? extends U> asSubclass(Class<U> clazz)
 							  Casts this Class object to represent a subclass of the class represented by the specified class object. Checks that that the cast is valid, and throws a ClassCastException if it is not. If this method succeeds, it always returns a reference to this class object. 
@@ -134,16 +140,9 @@ public class Parse {
 							  Since: 
 							  1.5
 							  */
-							  classz.asSubclass(class eea.engine.entity.Entity);
 							 
 							  
-							  Entity superb = (Entity) classz.newInstance(); //Vorraussetzung der Klassenname Existiert
 							  
-							  //Bild Hinzufügen
-							  superb.addComponent(new ImageRenderComponent(Global.getImage(temp[1])));
-							  
-							  //Füge Aktuelle Entity hinzu
-							  StateBasedEntityManager.getInstance().addEntity(Tanks.GAMEPLAYSTATE, superb);
 							  
 					  }
 					  
