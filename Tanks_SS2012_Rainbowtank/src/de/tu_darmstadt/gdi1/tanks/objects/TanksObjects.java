@@ -123,7 +123,7 @@ public class TanksObjects extends Entity {
 			if (isdestroid()) picture = "destroid_" + picture;
 			
 			// Bild Zuweisen
-			addComponent(new ImageRenderComponent(Global.getImage(picture)));
+			addComponent(Global.getImage(picture));
 	}
 
 	// gibt zurück ob object zerstört wurde

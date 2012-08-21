@@ -18,6 +18,7 @@ import sun.misc.GC;
 
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
+import eea.engine.component.render.AnimationRenderComponent;
 
 //class für Actions
 import eea.engine.action.Action;
@@ -40,6 +41,7 @@ import eea.engine.event.basicevents.KeyPressedEvent;
 import eea.engine.event.basicevents.LeavingScreenEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
+import global.Animate;
 import global.Global;
 
 import de.tu_darmstadt.gdi1.tanks.logic.FarbigeStatusAnzeige;
@@ -95,8 +97,8 @@ public class GameplayState extends BasicGameState {
     	// Hintergrund laden
 	    	Entity background = new Entity("background");	// Entitaet fuer Hintergrund
 	    	background.setPosition(new Vector2f(400,300));	// Startposition des Hintergrunds
-	    	background.addComponent(new ImageRenderComponent(Global.getImage("background.jpg"))); // Bildkomponente
-
+	    	background.addComponent(Global.getImage("background.jpg")); // Bildkomponente
+			
 	    // Hintergrund-Entitaet an StateBasedEntityManager uebergeben
 	    	entityManager.addEntity(stateID, background);
 
@@ -215,6 +217,7 @@ public class GameplayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		// StatedBasedEntityManager soll alle Entities rendern
 		entityManager.renderEntities(gc, game, g);
+				
 		
 		//g.drawAnimation(Global.animate("expl"), 200, 200);
 

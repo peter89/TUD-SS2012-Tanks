@@ -39,6 +39,7 @@ public class Shot extends Mine {
 		
 		//Bild:
 		setPicture("shoot.png");
+		addComponent(Global.getAimation("expl"));
 		
 		float speed = 0.25f; //set speed of object Bullet
 		float ablenkung=0.01f; // Ablenkung

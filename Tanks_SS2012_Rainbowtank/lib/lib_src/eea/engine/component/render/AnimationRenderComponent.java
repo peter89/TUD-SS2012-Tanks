@@ -22,7 +22,6 @@ public class AnimationRenderComponent extends RenderComponent{
 		animation.setSpeed(speed);
 		animation.setLooping(looping);
 		animation.start();
-		
 	}
 
 	@Override

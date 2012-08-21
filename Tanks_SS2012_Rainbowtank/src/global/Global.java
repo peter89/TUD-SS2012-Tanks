@@ -2,9 +2,11 @@ package global;
 import java.io.File;
 import java.util.Random;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+
+import eea.engine.component.render.AnimationRenderComponent;
+import eea.engine.component.render.ImageRenderComponent;
 
 import global.reglib;
 
@@ -20,9 +22,11 @@ import global.reglib;
  ***
  # Image
  * Image getImage(String image)
+ * .addComponent(new ImageRenderComponent(Global.getImage("background.jpg"))); // Bildkomponente
  ***
  # Animation
  * Animate expl = new Animate("expl"); //Verzeichnis mit png's die Animiert werden sollen
+ * .addComponent(new AnimationRenderComponent(Global.getAimation("expl"), 1.0f , 30f, 30f, false));
  * expl.draw(x,y);
  *** Register Lib's
  * regLibs() // register Libs for GL
@@ -75,20 +79,24 @@ public class Global {
 		return path;
 	}
 	
-	public static Image getImage(String image){ 
+	public static ImageRenderComponent getImage(String image){
 		Image img = null;
 		try { img = new Image(Global.getPath("img")+image);	}
 		catch (SlickException e) {
 			System.err.println("Bild: "+Global.getPath("img")+image+" wurde nicht gefunden");
 		}
-		return img; 
+		return new ImageRenderComponent(img);
 	}
 	
 	public static void getSound(String file){
 		new playsound(getPath("audio")+file);
 	}
 	
-	public static Animation animate(String folder){ return new Animate(folder); }
+	public static AnimationRenderComponent getAimation(String folder){
+		Animate test = new Animate(folder);
+		return new AnimationRenderComponent(test.frames, 1.0f , 30f, 30f, true);
+	}
+	
 	//Zufallszahl von ... bis ...
 	public static int rand(int start, int end){ return new Random( end-start ).nextInt()+start; }
 

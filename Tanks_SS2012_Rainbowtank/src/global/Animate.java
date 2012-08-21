@@ -4,23 +4,15 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.Renderable;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 
-public class Animate extends Animation implements Renderable {
+public class Animate {
 	
-	public int duration; //Anzeige Frames
+	public Image[] frames;
 
-	Animate(String obj) {
-
-		this.duration=20; //Anzeige Frames
-		this.setLooping(false);
-		this.setSpeed(1.7f);
-		this.start();
-		
+	Animate(String obj) {		
 		String path = Global.getPath("animation")+obj+File.separator;
 		
 		File dir = new File(path);
@@ -32,20 +24,23 @@ public class Animate extends Animation implements Renderable {
 		
 		Arrays.sort(fileList); //sortieren
 		
-		for (String item: fileList) {
-			String img = item;
-			System.out.println(item);
-
-		try{
-			// addFrame: Frame , ShowTime			
-			addFrame(new Image(path+img), duration); // Add animation frame to the animation
-		}catch (SlickException e){
-				System.err.println(
-					"Animation Dir " + obj + " not found in " + Global.getPath("animation") +
-					" be shure you your animation files ends with '.png'"
-					);
+		//Image Array Anlegen mit anzahl der Bilder in Verzeichnis 
+		Image[] frames = new Image[fileList.length];
+		
+		for (int i=0; i<fileList.length; i++) {
+			String img = fileList[i];
+				
+				try{
+					// addFrame: Frame , ShowTime
+					frames[i]= new Image(path+img);
 				}
+				catch (SlickException e){
+						System.err.println(
+							"Animation Dir " + obj + " not found in " + Global.getPath("animation") +
+							" be shure you your animation files ends with '.png'"
+							);
+				}
+			}
+		if (Debug.isdebug(this)) System.out.println("Animation: " + obj + " Gestartet");
 		}
-		System.out.println("Animation: " + obj + " Gestartet");
-	}
 }

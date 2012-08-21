@@ -14,7 +14,6 @@ import org.newdawn.slick.geom.Vector2f;
 import de.tu_darmstadt.gdi1.tanks.model.exceptions.SemanticException;
 import de.tu_darmstadt.gdi1.tanks.model.exceptions.SyntaxException;
 import de.tu_darmstadt.gdi1.tanks.ui.Tanks;
-import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 
@@ -64,7 +63,7 @@ public class Parse {
 					zeile = zeile.replaceAll("\t", " ");
 					zeile = zeile.replaceAll("  ", " ");
 					char[] data=zeile.toCharArray();
-					//Lehrzeichen am anfang auswendig machen
+					//Lehrzeichen am anfang entfernen sofern vorhanden
 					if (data[0]==' ') zeile = zeile.substring(1);
 					
 					System.out.println("Gelesene Zeile: " + zeile);

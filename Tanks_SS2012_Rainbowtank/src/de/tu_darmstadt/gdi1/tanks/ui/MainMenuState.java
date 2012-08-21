@@ -9,7 +9,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import eea.engine.action.basicactions.ChangeStateInitAction;
 import eea.engine.action.basicactions.QuitAction;
-import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.ANDEvent;
@@ -55,7 +54,7 @@ public class MainMenuState extends BasicGameState {
 //Hintergrund laden
     	Entity background = new Entity("menu");	// Entitaet fuer Hintergrund
     	background.setPosition(new Vector2f(400,300));	// Startposition des Hintergrunds
-    	background.addComponent(new ImageRenderComponent(Global.getImage("menu.png"))); // Bildkomponente Hintergrundmenü
+    	background.addComponent(Global.getImage("menu.png")); // Bildkomponente Hintergrundmenü
     	entityManager.addEntity(stateID, background); // Hintergrund-Entitaet an StateBasedEntityManager uebergeben
 
 
@@ -70,7 +69,7 @@ public class MainMenuState extends BasicGameState {
         	// Setze Position und Bildkomponente
         	Menu_Entity.setPosition(new Vector2f(start_x, start_y+distance*i)); i++;
         	Menu_Entity.setScale(0.28f);
-       		Menu_Entity.addComponent(new ImageRenderComponent(Global.getImage("entry.png")));
+       		Menu_Entity.addComponent(Global.getImage("entry.png"));
        		
        		// Erstelle das Ausloese-Event und die zugehoerige Action
        		ANDEvent mainEvents = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
