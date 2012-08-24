@@ -6,7 +6,7 @@ public class Settings {
 	public static boolean debug = false;
 	
 	//God
-	public static boolean godmod = true; //Default
+	public static boolean godmod = false; //Default
 	
 	//Anzahl Spieler
 	public static int maxplayer;

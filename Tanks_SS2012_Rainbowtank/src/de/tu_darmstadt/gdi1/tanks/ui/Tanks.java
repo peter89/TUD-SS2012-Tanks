@@ -25,7 +25,8 @@ public class Tanks extends StateBasedGame {
 	    GAMEPLAYSTATE = 1,
 	    SETTINGSESTATE = 2,
 	    HIGHSCORESTATE = 3,
-	    LOADGAMESTATE = 4;
+	    LOADGAMESTATE = 4,
+    	MAPEDITORSTATE = 5;
  
     /**
      * Konstruktor des Spiel Tanks.
@@ -79,6 +80,7 @@ public class Tanks extends StateBasedGame {
         addState(new GameplayState(GAMEPLAYSTATE));
         addState(new HighScoreState(HIGHSCORESTATE));
         addState(new SettingState(SETTINGSESTATE));
+        addState(new MapEditorState(MAPEDITORSTATE));
         //TODO: States Erstellen und einbinden
         //addState(new LoadGameState(LOADGAMESTATE));
        
@@ -88,6 +90,7 @@ public class Tanks extends StateBasedGame {
         StateBasedEntityManager.getInstance().addState(GAMEPLAYSTATE);
         StateBasedEntityManager.getInstance().addState(HIGHSCORESTATE);
         StateBasedEntityManager.getInstance().addState(SETTINGSESTATE);
+        StateBasedEntityManager.getInstance().addState(MAPEDITORSTATE);
         
     }
 }

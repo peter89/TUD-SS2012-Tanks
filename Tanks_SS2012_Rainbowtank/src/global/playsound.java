@@ -79,7 +79,6 @@ public class playsound{
 					}
 
 					//   MEIN CODE ANFANG
-
 					for(int i=0;i<abData.length;i++){
 						abData[i]=(byte)(Settings.volume*(double)abData[i]);
 					}

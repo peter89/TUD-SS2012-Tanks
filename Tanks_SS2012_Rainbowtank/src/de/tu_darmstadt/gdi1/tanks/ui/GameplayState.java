@@ -13,6 +13,10 @@ import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ParticleIO;
+import org.newdawn.slick.particles.ParticleSystem;
+import org.newdawn.slick.particles.effects.*;
 
 import sun.misc.GC;
 
@@ -34,6 +38,7 @@ import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 
 
+import eea.engine.event.Event;
 //class für Events
 import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.KeyDownEvent;
@@ -43,10 +48,12 @@ import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import global.Animate;
 import global.Global;
+import global.Parse;
 
-import de.tu_darmstadt.gdi1.tanks.logic.FarbigeStatusAnzeige;
+import de.tu_darmstadt.gdi1.tanks.logic.CountdownEvent;
 import de.tu_darmstadt.gdi1.tanks.objects.*;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -62,32 +69,60 @@ public class GameplayState extends BasicGameState {
 
 	private int stateID; 							// Identifier dieses BasicGameState
 	public StateBasedEntityManager entityManager; 	// zugehoeriger entityManager
+	ParticleSystem partikelSystem = null;			// Partikelsystem
 	
-	Tank tankPlayer=null;
-	boolean test_bar = false;
+	Tank tankPlayer=null, tankPlayer2=null, tankOppenent=null;
+	Tower tower=null;
+	boolean test_bar = false; //test variable für anzeige von healthstatus
     
     GameplayState( int sid ) {
        stateID = sid;
        entityManager = StateBasedEntityManager.getInstance();
     }
     
-	Action shoot = new Action() {
-   		@Override
+    
+	Action add_tanks = new Action() {
+		@Override
 		public void update(GameContainer gc, StateBasedGame sb, int delta,
 				Component event) {
-   			
-			Shot mybullet = new Shot("a Bullet");
 			
-			//abstand generierung vor kanonenrohr abhängig von tankgröße
-			int offset = (int) (tankPlayer.getScale()*-250);
-			Vector2f bullet_position = new Vector2f(0,offset).add(tankPlayer.getRotation());
-			bullet_position.add(tankPlayer.getPosition());
-			mybullet.setPosition( bullet_position ); //Position
-			mybullet.setRotation( tankPlayer.getRotation() ); //Rotation
-
-			entityManager.addEntity(stateID, mybullet );
-	}};
-	
+			Global.loadMapFromFile();
+			
+			// Tower wird erzeugt
+			tower = new Tower("new tower");
+			tower.setPosition(new Vector2f(300,100)); //Position
+			tower.setRotation(75.4f); //Rotation
+			tower.setAutoShoot();
+			entityManager.addEntity(stateID, tower);
+			
+			// Panzer wird erzeugt
+			tankPlayer = new Tank("player1 tank");
+			tankPlayer.setNavKey(Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_UP, Input.KEY_DOWN);
+			tankPlayer.setShootKey(Input.KEY_SPACE); //shootkey
+			tankPlayer.setPosition(new Vector2f(150,200)); //Position
+			tankPlayer.setRotation(95.4f); //Rotation
+			tankPlayer.setPicture("tankPlayer.png"); //png bild
+			entityManager.addEntity(stateID, tankPlayer);
+			
+			// Panzer wird erzeugt
+			tankPlayer2 = new Tank("player2 tank");
+			tankPlayer2.setNavKey(Input.KEY_A, Input.KEY_D, Input.KEY_W, Input.KEY_S);
+			tankPlayer2.setShootKey(Input.KEY_E); //shootkey
+			tankPlayer2.setPosition(new Vector2f(400,100)); //Position
+			tankPlayer2.setRotation(-95.4f); //Rotation
+			tankPlayer2.setPicture("tankPlayer2.png"); //png bild
+			entityManager.addEntity(stateID, tankPlayer2);
+			
+			// Panzer wird erzeugt
+			tankOppenent = new Tank("oponend tank");
+			//tankOppenent.setNavKey(Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_UP, Input.KEY_DOWN);
+			tankOppenent.setPosition(new Vector2f(200,100)); //Position
+			tankOppenent.setRotation(95.4f); //Rotation
+			tankOppenent.setPicture("tankOppenent.png"); //png bild
+			tankOppenent.setShootKey(Input.KEY_SPACE); //shootkey
+			entityManager.addEntity(stateID, tankOppenent);
+		}};
+ 	
     /**
      * Wird vor dem (erstmaligen) Starten dieses States ausgefuehrt
      */
@@ -113,89 +148,24 @@ public class GameplayState extends BasicGameState {
     	// Bei Mausklick sollen Objekte erscheinen
     	Entity mouse_Clicked_Listener = new Entity("Mouse_Clicked_Listener");
     	MouseClickedEvent mouse_Clicked = new MouseClickedEvent();
-    	    	
-    	// Bei Drücken der LeerTaste Schießen
-    	Entity shoot_Listener = new Entity("Shoot_Listener");    	
-    	KeyPressedEvent space_pressed = new KeyPressedEvent(Input.KEY_SPACE);
-    	space_pressed.addAction(shoot);
-    	shoot_Listener.addComponent(space_pressed);
-    	entityManager.addEntity(stateID, shoot_Listener);
     	
-    	
-    	Entity autoshoot = shoot_Listener;
-    
-    	//Bullet Einstellungen
-		//Schießen...
-    	/*'test abweichung *//*
-		LoopEvent loop_shoot = new LoopEvent();
+    	//Setzt Partikelsystem Feuer an Possition 300,270
 		try {
-			loop_shoot.wait(9999999);
-			loop_shoot.wait();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+			partikelSystem = ParticleIO.loadConfiguredSystem(Global.getPath("skins")+"firewithsmoke.xml");
+		} catch (IOException e1) {
+			System.err.println("Partikel System konnte nicht geladen werden: "+e1);
 		}
-		loop_shoot.addAction(shoot);
-		autoshoot.addComponent(loop_shoot);
-		
-		entityManager.addEntity(stateID, autoshoot);
-		*/
+		partikelSystem.setPosition(300, 270);
 		
 		
-    	
-    	Action add_tanks = new Action() {
-    		@Override
-    		public void update(GameContainer gc, StateBasedGame sb, int delta,
-    				Component event) {
-
-    			// Panzer wird erzeugt
-    			tankPlayer = new Tank("player1 tank");
-    			tankPlayer.setNavKey(Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_UP, Input.KEY_DOWN);
-    			tankPlayer.setPosition(new Vector2f(150,200)); //Position
-    			tankPlayer.setRotation(95.4f); //Rotation
-    			tankPlayer.setPicture("tankPlayer.png"); //png bild
-    			tankPlayer.setShootKey(Input.KEY_SPACE); //shootkey
-
-    			entityManager.addEntity(stateID, tankPlayer);
-
-    			
-    			
-    			// Panzer wird erzeugt
-    			Tank tankPlayer2 = new Tank("player2 tank");
-    			tankPlayer2.setNavKey(Input.KEY_A, Input.KEY_D, Input.KEY_W, Input.KEY_S);
-    			tankPlayer2.setPosition(new Vector2f(400,100)); //Position
-    			tankPlayer2.setRotation(-95.4f); //Rotation
-    			tankPlayer2.setPicture("tankPlayer2.png"); //png bild
-    			tankPlayer.setShootKey(Input.KEY_E); //shootkey
-    			
-    			entityManager.addEntity(stateID, tankPlayer2);
-    			
-    			
-    			// Panzer wird erzeugt
-    			Tank tankOppenent = new Tank("oponend tank");
-    			tankOppenent.setNavKey(Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_UP, Input.KEY_DOWN);
-    			tankOppenent.setPosition(new Vector2f(200,100)); //Position
-    			tankOppenent.setRotation(95.4f); //Rotation
-    			tankOppenent.setPicture("tankOppenent.png"); //png bild
-    			tankOppenent.setShootKey(Input.KEY_SPACE); //shootkey
-    			
-    			entityManager.addEntity(stateID, tankOppenent);
-    			
-    			    			
-    			
-    			// Tower wird erzeugt
-    			Tower tower = new Tower("new tower");
-    			tower.setPosition(new Vector2f(100,100)); //Position
-    			tower.setRotation(75.4f); //Rotation
-    			tower.setPicture("flac.png"); //png bild
-    			
-    			entityManager.addEntity(stateID, tower);
-    		}};
-    	
-    		
-    	mouse_Clicked.addAction(add_tanks);
-    	mouse_Clicked_Listener.addComponent(mouse_Clicked);    	
-    	entityManager.addEntity(stateID, mouse_Clicked_Listener);
+		
+		//Countdown Event
+		Entity CountDownListener = new Entity("CountDownListener");
+		CountdownEvent cde = new CountdownEvent();
+		cde.addAction(add_tanks);
+		cde.setTimer(5);
+		CountDownListener.addComponent(cde);
+		entityManager.addEntity(stateID, CountDownListener);
     }
 
     /**
@@ -208,6 +178,7 @@ public class GameplayState extends BasicGameState {
     	
     	//if (input.isKeyDown(Input.KEY_0)){}
     	entityManager.updateEntities(gc, game, delta);
+    	partikelSystem.update(delta);
 	}
     
     /**
@@ -217,15 +188,19 @@ public class GameplayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		// StatedBasedEntityManager soll alle Entities rendern
 		entityManager.renderEntities(gc, game, g);
-				
-		
+		partikelSystem.render();
 		//g.drawAnimation(Global.animate("expl"), 200, 200);
+
 
 		float healthX=10, healthY=10;
 		
+		
 		try{
-			healthX = tankPlayer.getPosition().x;
-			healthY = tankPlayer.getPosition().y;
+			Vector2f pos = entityManager.getEntity(stateID, "tankPlayer").getPosition();
+			healthX = pos.x;
+			healthY = pos.y;
+			
+			g.drawString("string x:"+ pos.x + "|y:"+pos.x, pos.x, pos.y);
 		}
 		catch(Exception e){
 			
@@ -233,18 +208,7 @@ public class GameplayState extends BasicGameState {
 		float maxHealth=100;
 		
 		float healthWidth=maxHealth, healthHeight=10;
-		float radius=healthHeight/2;
-
-		
-
-		
-		//FarbigeStatusAnzeige bar1 = new FarbigeStatusAnzeige(95);
-		//FarbigeStatusAnzeige bar2 = new FarbigeStatusAnzeige(50);
-		//FarbigeStatusAnzeige bar3 = new FarbigeStatusAnzeige(1);
-		
-		
-
-		
+		float radius=healthHeight/2;		
 		
 		RoundedRectangle healthBG = new RoundedRectangle(healthX, healthY, healthWidth+(1.4f*2), healthHeight+1.4f, radius);
 		
@@ -255,17 +219,12 @@ public class GameplayState extends BasicGameState {
         g.fill(healthBG);
         g.setColor(Color.gray);
         g.draw(healthBG);
-        
-        
 
         FarbigeStatusAnzeige bar = new FarbigeStatusAnzeige("mytank health");
         if (tankPlayer!=null){
         	health=tankPlayer.health;
         	
-        }
-        
-        
-        
+        }      
         	
         	if(health==100 || health==0){
         		test_bar=test_bar?false:true;  //Umschalten       	

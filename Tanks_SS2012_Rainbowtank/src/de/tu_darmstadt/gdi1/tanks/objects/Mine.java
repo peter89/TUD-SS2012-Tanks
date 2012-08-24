@@ -32,11 +32,13 @@ public class Mine extends Pickup {
 	 * 	   CollisionEvent: Kugel wird Zerstört, Schaden(i)-> Collisions Objekt
 	 * LeavingScreenEvent: Kugel wird zerstört
 	 */
-	
+
 	public Mine(String id) {
 		super(id);
 		
 		setPicture("mine.png");
+		health(-30);
+		strength = Global.rand(20,40); 	//zufallsschaden von 20 bis 40
 		
 		if(Debug.isdebug(this))
 			System.err.println("Mine Gelegt");

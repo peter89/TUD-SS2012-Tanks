@@ -38,11 +38,12 @@ public class MainMenuState extends BasicGameState {
        stateID = sid;
        entityManager = StateBasedEntityManager.getInstance();
        
-    stringname = new String[4];
+    stringname = new String[5];
    	stringname[0] = "Neues Spiel starten";
    	stringname[1] = "Bestenliste";
    	stringname[2] = "Einstellungen";
-   	stringname[3] = "Beenden";    	
+   	stringname[3] = "Map Editor";
+   	stringname[4] = "Beenden";
     }
     
     /**
@@ -83,6 +84,8 @@ public class MainMenuState extends BasicGameState {
        			new_Game_Action = new ChangeStateInitAction(Tanks.HIGHSCORESTATE);
        		if(item.equals("Einstellungen"))
        			new_Game_Action = new ChangeStateInitAction(Tanks.SETTINGSESTATE);
+       		if(item.equals("Map Editor"))
+       			new_Game_Action = new ChangeStateInitAction(Tanks.MAPEDITORSTATE);
        		if(item.equals("Beenden")){
        	    	// Erstelle das Ausloese-Event und die zugehoerige Action
        	    	ANDEvent mainEvents_q = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());     	    	

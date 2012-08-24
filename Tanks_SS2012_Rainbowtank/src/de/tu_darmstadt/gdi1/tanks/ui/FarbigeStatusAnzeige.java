@@ -1,9 +1,6 @@
-package de.tu_darmstadt.gdi1.tanks.logic;
+package de.tu_darmstadt.gdi1.tanks.ui;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.geom.Vector2f;
-
-import eea.engine.action.basicactions.DestroyEntityAction;
 import eea.engine.entity.Entity;
 
 public class FarbigeStatusAnzeige extends Entity{
@@ -11,27 +8,14 @@ public class FarbigeStatusAnzeige extends Entity{
 	int posx, posy;
 	int max = 100, min = 0;
 	int Value;
-	public static Color color;
 	
     public FarbigeStatusAnzeige(String id) {
     		super(id);
     }
-    
-
-	/*
-	Graphics g = new Graphics();
-	g.setColor(color);
-	g.fillRect(posx,posy,100,1);
-	g.fill(bar);
-	g.draw(bar);
-	g.flush();//IMPORTANT!!!
-	*/
-
 	
     public Color getColor(int value){
     	//********************************+
-    			float min=0, max=50;
-    			
+    			float max=100;
     	        int rot = 0, gruen = 255;		//Ausgangs Farbwerte 
     	        float faktor = 255f / max; 		//Verschiebungsfaktor der Farbe pro Wert
     	/*
@@ -46,8 +30,7 @@ public class FarbigeStatusAnzeige extends Entity{
 
     	        //Gelb -> Rot durch subtraktion der grünwerte
     	            if(rot>=200){
-    	            	gruen = (int) ((value*faktor)*1.5);
-    	            	System.out.println("rot");
+    	            	gruen = (int) ((value*faktor)*0.9);
     	            }
 
     	            //System.out.println("RGB: r/"+rot+" g/"+gruen+" b/"+ 0);

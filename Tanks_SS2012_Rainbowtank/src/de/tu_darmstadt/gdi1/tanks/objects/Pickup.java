@@ -12,21 +12,21 @@ public class Pickup extends TanksObjects {
 		ce.addAction(new DestroyEntityAction());
 	}
 	
-	void addHealth(){
+	public void addHealth(){
 		health(+30);
 		setPicture("healthpack.png");
 	}
-		
-	void addMine(){
-		health(-30);
-		setPicture("mine.png");
-		strength = Global.rand(20,40); 	//zufallsschaden von 20 bis 40
-	}
 	
-	void addMuniPack(){
+	public void addMuniPack(){
 		health(-30);
 		setPicture("munipack.png");
 		munition += Global.rand(20,40); 	//zufallsmunition von 20 bis 40
 	}
 
+	public void addToolPack(){
+		//getriebe(Global.rand(7,13)/10f); 	//Reperatur und Tuning von Getriebe von +1.3 bis +1.7;
+		setPicture("werkzeug.png");
+	}
+
+	
 }

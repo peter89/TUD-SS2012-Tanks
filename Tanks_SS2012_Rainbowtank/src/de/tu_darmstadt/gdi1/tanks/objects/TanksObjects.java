@@ -5,7 +5,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.DestroyEntityAction;
 import eea.engine.component.Component;
-import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.LeavingScreenEvent;
@@ -20,17 +19,26 @@ public class TanksObjects extends Entity {
 	 * werden
 	 * */
 	public int health = 1; 	// Standard Leben (e.g. bullet, mine, packs)
-	int munition = 0;	//standard munition
+	public int munition = 0;	//standard munition
+	
 	float speed = 0;    //speed
 	
-	// object
-	int strength = Global.rand(0, 3); // verursacht schaden bei aufprall
+	public void setSpeed(float speed){
+		this.speed=speed;
+	}
+	
+	int strength; // verursachter Schaden bei Aufprall
+	
+	public void setStrength(int strength){
+		this.strength=strength;
+	}
+	
 
 	/**
 	 * Events
 	 * */
 	// trifft objekt -> Collision Event
-	CollisionEvent ce = new CollisionEvent();
+	public CollisionEvent ce = new CollisionEvent();
 	// verlasse Bildschirm -> LeavingScreenEvent
 	LeavingScreenEvent lse = new LeavingScreenEvent();
 	// Zerstöre Objekt -> DestroyEntityAction
@@ -38,7 +46,9 @@ public class TanksObjects extends Entity {
 
 	public TanksObjects(String id) {
 		super(id);
-	    
+	    //Passierbarkeit von Elementen
+		
+		setPacable(false);
 		// Collision Event
 		ce.addAction(ca); // ADD Action cea to CollisionEventAction
 		addComponent(ce); // ADD CollisionEvent to Object
@@ -121,9 +131,10 @@ public class TanksObjects extends Entity {
 
 			// Falls object zerstört ändere bild zu...
 			if (isdestroid()) picture = "destroid_" + picture;
-			
+			if(! Debug.debug) {
 			// Bild Zuweisen
 			addComponent(Global.getImage(picture));
+			}
 	}
 
 	// gibt zurück ob object zerstört wurde
@@ -131,4 +142,27 @@ public class TanksObjects extends Entity {
 		return (health <= 0) ? true : false;
 	}
 
+	public String toString(){
+		String myclassname =this.getClass().getSimpleName();
+
+		
+		/**						Wird durch Default Abgedeckt
+		 * 
+		* Shot strength 		rotation	scale 	x 	y
+		* 
+		* Wall					maxlife life
+		* 					 	rotation	scale	x	y
+		* 
+		* Tank name 			maxlife life
+		* 						maxshot shot maxmmine mine
+		* 						strength	speed
+		* 						rotation 	scale 	x 	y
+		* 
+		* Tower 				maxlife life maxshot shot
+		* 						strength 	speed
+		* 						rotation	scale	x	y
+		*/
+		return null;
+	}
+	
 }

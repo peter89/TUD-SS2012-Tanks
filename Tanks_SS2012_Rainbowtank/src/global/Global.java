@@ -5,6 +5,9 @@ import java.util.Random;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import de.tu_darmstadt.gdi1.tanks.model.exceptions.SemanticException;
+import de.tu_darmstadt.gdi1.tanks.model.exceptions.SyntaxException;
+
 import eea.engine.component.render.AnimationRenderComponent;
 import eea.engine.component.render.ImageRenderComponent;
 
@@ -109,4 +112,14 @@ public class Global {
 	public static void regLibs(){
 		new reglib("org.lwjgl.librarypath", getPath("native"));
 		}
+	
+	public static void loadMapFromFile(){
+		File current_map = new File( getPath("maps")+"map00" );
+		try {
+			new Parse().loadMapFromFileWithExceptions(current_map);
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+	}
 }

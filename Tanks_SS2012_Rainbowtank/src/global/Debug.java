@@ -14,3 +14,5 @@ public class Debug {
 	return debug & Settings.debug; //Boolische & Verknüpfung - Settings Debug & Debug Obj
 	}
 }
+
+

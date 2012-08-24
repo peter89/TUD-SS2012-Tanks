@@ -1,7 +1,10 @@
 package de.tu_darmstadt.gdi1.tanks.objects;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
+
+import de.tu_darmstadt.gdi1.tanks.ui.Tanks;
 
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.MoveBackwardAction;
@@ -9,8 +12,11 @@ import eea.engine.action.basicactions.MoveForwardAction;
 import eea.engine.action.basicactions.RotateLeftAction;
 import eea.engine.action.basicactions.RotateRightAction;
 import eea.engine.component.Component;
+import eea.engine.entity.StateBasedEntityManager;
+import eea.engine.event.ANDEvent;
 import eea.engine.event.basicevents.KeyDownEvent;
 import eea.engine.event.basicevents.KeyPressedEvent;
+import eea.engine.event.basicevents.MovementDoesntCollideEvent;
 import global.Debug;
 import global.Global;
 
@@ -20,16 +26,15 @@ import global.Global;
 /**
 // Panzer wird erzeugt Example
 TanksObjects tank = new Entity("a tank");
-tank.setPicture("tank.png"); //Bild: wird durch Aufruf bestimmt		
+tank.setPicture("tank.png"); //Bild: wird durch Aufruf bestimmt
 **/
 public class Tank extends Tower {
-
+	
 	int Minen;
 	int Full; 	//Benzin wird duch fahren verbraucht
 	
 	public Tank(String id) {
 		super(id);
-		
 		setScale(getScale()+0.05f); //Größe	
 		
 		//set Default Variables
@@ -51,29 +56,41 @@ public class Tank extends Tower {
 
 	public void setShootKey(int shootkey) {
 		KeyPressedEvent shoot = new KeyPressedEvent(shootkey);
-		System.out.println("Schuss von Tank");
-		shoot.addAction(shootaction);
+		shoot.addAction(shoota);
 		addComponent(shoot);
 	}
 	
 	//set navigation Bewegung vom Panzer
 	public void setNavKey(int left,int right,int forward,int backward){
-
-		KeyDownEvent turn_left = new KeyDownEvent(left);
-		KeyDownEvent turn_right = new KeyDownEvent(right);
-		KeyDownEvent move_forward = new KeyDownEvent(forward);
-		KeyDownEvent move_backward = new KeyDownEvent(backward);
 		
-		//Bewegung des Panzers
-		turn_left.addAction(new RotateLeftAction(speed));	
-		turn_right.addAction(new RotateRightAction(speed));
+		//Key Down Events für Bewegung des Panzers
+		KeyDownEvent kde_move_forward = new KeyDownEvent(forward);	
+		KeyDownEvent kde_move_backward = new KeyDownEvent(backward);
+		KeyDownEvent kde_turn_left = new KeyDownEvent(left);
+		KeyDownEvent kde_turn_right = new KeyDownEvent(right);
+
+		MovementDoesntCollideEvent mdce_mf = new MovementDoesntCollideEvent( speed, new MoveForwardAction(speed) );
+		MovementDoesntCollideEvent mdce_mb = new MovementDoesntCollideEvent( speed, new MoveBackwardAction(speed) );
+		MovementDoesntCollideEvent mdce_rl = new MovementDoesntCollideEvent( speed, new RotateLeftAction(speed) );
+		MovementDoesntCollideEvent mdce_rr = new MovementDoesntCollideEvent( speed, new RotateRightAction(speed) );
+		
+		ANDEvent move_forward = new ANDEvent(mdce_mf, kde_move_forward);
+		ANDEvent move_backward = new ANDEvent(mdce_mb, kde_move_backward);
+		ANDEvent turn_left = new ANDEvent(mdce_rl, kde_turn_left);
+		ANDEvent turn_right = new ANDEvent(mdce_rr, kde_turn_right);
+
 		move_forward.addAction(new MoveForwardAction(speed));
 		move_backward.addAction(new MoveBackwardAction(speed));
-				
-		addComponent(turn_left);
-		addComponent(turn_right);
+		turn_left.addAction(new RotateLeftAction(speed));
+		turn_right.addAction(new RotateRightAction(speed));
+		
 		addComponent(move_forward);
 		addComponent(move_backward);
+		addComponent(turn_left);
+		addComponent(turn_right);
+		
+		//Componente < Event < Action
+
 	}
 	
 	//CollisionEvent Action

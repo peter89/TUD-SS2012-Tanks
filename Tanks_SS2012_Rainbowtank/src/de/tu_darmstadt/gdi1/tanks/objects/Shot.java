@@ -31,21 +31,19 @@ import de.tu_darmstadt.gdi1.tanks.ui.GameplayState;
 
 @SuppressWarnings("unused")
 public class Shot extends Mine {
-	
 
 	public Shot(String id) {
 		super(id);
 	
+		setVisible(false);
 		
 		//Bild:
 		setPicture("shoot.png");
-		addComponent(Global.getAimation("expl"));
-		
+		//addComponent(Global.getAimation("expl"));
+
 		float speed = 0.25f; //set speed of object Bullet
 		float ablenkung=0.01f; // Ablenkung
-		
-		strength = Global.rand(2,4); //erzeugt zufallsschaden von 2 bis 4
-
+	
 		setScale(0.05f); //Größe des Objects
 		
 		if(Debug.isdebug(this)) System.err.println("Bullet created with speed: "+speed);
@@ -53,12 +51,13 @@ public class Shot extends Mine {
 		// Move forward with speed / cycle
 		LoopEvent loop = new LoopEvent();
     	loop.addAction(new MoveForwardAction(speed));
-    	this.addComponent(loop);  // Loop Event
+    	addComponent(loop);  // Loop Event
 
 		//Ablenkung bei Schießen random  0.0f - 1.0f /20 / cycle		
 		LoopEvent loop_abweichung = new LoopEvent();
     	loop_abweichung.addAction(new RotateLeftAction( new Random().nextFloat() * ablenkung ));
     	loop_abweichung.addAction(new RotateRightAction( new Random().nextFloat() * ablenkung ));
-    	this.addComponent(loop_abweichung);  // Loop Event
+    	
+    	addComponent(loop_abweichung);  // Loop Event
 	}
 }
